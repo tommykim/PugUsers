@@ -1,0 +1,23 @@
+doctype html
+html
+  head
+    title Register User
+    style.
+      .btn-group { display: flex; gap: 10px; margin-top: 10px; }
+      button { padding: 5px 10px; cursor: pointer; }
+      .cancel { background: #f44336; color: white; border: none; }
+  body
+    h1 Register User
+    form(action='/users' method='POST')
+      div
+        label(for='name') Name: 
+        input#name(name='name' required)
+      div
+        label(for='age') Age: 
+        input#age(type='number' name='age' required)
+      div
+        label(for='married') Married: 
+        input#married(type='checkbox' name='married')
+      div.btn-group
+        button(type='submit') Save
+        button.cancel(type='button' onclick="location.href='/users'") Cancel 

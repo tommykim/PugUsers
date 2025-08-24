@@ -1,0 +1,23 @@
+doctype html
+html
+  head
+    title Edit User
+    style.
+      .btn-group { display: flex; gap: 10px; margin-top: 10px; }
+      button { padding: 5px 10px; cursor: pointer; }
+      .cancel { background: #f44336; color: white; border: none; }
+  body
+    h1 Edit User
+    form(action=`/users/edit/${user.id}` method='POST')
+      div
+        label(for='name') Name: 
+        input#name(name='name' value=user.name required)
+      div
+        label(for='age') Age: 
+        input#age(type='number' name='age' value=user.age required)
+      div
+        label(for='married') Married: 
+        input#married(type='checkbox' name='married' checked=user.married)
+      div.btn-group
+        button(type='submit') Save
+        button.cancel(type='button' onclick="location.href='/users'") Cancel 
