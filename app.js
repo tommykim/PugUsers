@@ -8,7 +8,8 @@ const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
 const pool = require('./models'); // index.js의 pool을 가져옴
-const usersRouter = require('./routes/users');
+const indexRouter = require('./routes');
+const userRouter = require('./routes/user');
 
 const app = express();
 const PORT = process.env.PORT || 3003;  // 3002에서 다른 포트로 변경
@@ -22,15 +23,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// 루트 경로 홈페이지 라우터 추가
-app.get('/', (req, res) => {
-  res.render('index', { 
-    title: '사용자 관리 시스템',
-    message: '사용자 관리 시스템에 오신 것을 환영합니다!'
-  });
-});
-
-app.use('/users', usersRouter);
+app.use('/', indexRouter);
+app.use('/users', userRouter);
 
 // 404 에러 핸들러 (라우터가 없는 경우)
 app.use((req, res, next) => {

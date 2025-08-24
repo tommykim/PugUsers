@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-// 사용자 목록 조회
+// GET /user 라우터
 router.get('/', async (req, res, next) => {
   try {
     const [users] = await req.app.get('pool').query('SELECT * FROM users');
