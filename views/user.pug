@@ -1,30 +1,171 @@
 doctype html
-html
+html(lang='ko')
   head
-    title User List
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title 사용자 목록
     style.
-      table { border-collapse: collapse; }
-      td, th { border: 1px solid black; padding: 5px; }
-      .actions { display: flex; gap: 5px; }
-      .actions a { text-decoration: none; padding: 2px 5px; }
-      .edit { background: #4CAF50; color: white; }
-      .delete { background: #f44336; color: white; }
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      h1 {
+        color: white;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      }
+      .subtitle {
+        color: rgba(255,255,255,0.9);
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+      }
+      .actions-bar {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+      .btn {
+        display: inline-block;
+        padding: 12px 30px;
+        margin: 0 10px;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: bold;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      }
+      .btn-secondary {
+        background: linear-gradient(45deg, #6c757d, #495057);
+      }
+      .table-container {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        overflow: hidden;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0;
+      }
+      th {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        padding: 1rem;
+        text-align: left;
+        font-weight: 600;
+      }
+      td {
+        padding: 1rem;
+        border-bottom: 1px solid #f0f0f0;
+        color: #333;
+      }
+      tr:hover {
+        background: #f8f9fa;
+      }
+      .actions {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+      }
+      .actions a {
+        text-decoration: none;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: transform 0.2s ease;
+      }
+      .actions a:hover {
+        transform: translateY(-1px);
+      }
+      .edit {
+        background: #28a745;
+        color: white;
+      }
+      .delete {
+        background: #dc3545;
+        color: white;
+      }
+      .empty-state {
+        text-align: center;
+        padding: 3rem;
+        color: #666;
+      }
+      .empty-state h3 {
+        color: #333;
+        margin-bottom: 1rem;
+      }
+      .back-home {
+        text-align: center;
+        margin-top: 2rem;
+      }
+      .back-home a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        transition: opacity 0.3s ease;
+      }
+      .back-home a:hover {
+        opacity: 0.8;
+      }
+
   body
-    h1 User List
-    a(href='/users/reg') New User
-    table
-      tr
-        th ID
-        th Name
-        th Age
-        th Married
-        th Actions
-      each user in users || []
-        tr
-          td= user.id
-          td= user.name
-          td= user.age
-          td= user.married ? 'Yes' : 'No'
-          td.actions
-            a.edit(href=`/users/edit/${user.id}`) Edit
-            a.delete(href=`/users/delete/${user.id}` onclick="return confirm('Are you sure?')") Delete 
+    .container
+      .header
+        h1 사용자 목록
+        .subtitle 등록된 사용자들을 관리할 수 있습니다
+      
+      .actions-bar
+        a.btn(href='/users/reg') 새 사용자 등록
+        a.btn.btn-secondary(href='/') 홈으로 돌아가기
+      
+      .table-container
+        if users && users.length > 0
+          table
+            thead
+              tr
+                th ID
+                th 이름
+                th 나이
+                th 결혼여부
+                th 작업
+            tbody
+              each user in users
+                tr
+                  td= user.id
+                  td= user.name
+                  td= user.age
+                  td= user.married ? '기혼' : '미혼'
+                  td.actions
+                    a.edit(href=`/users/edit/${user.id}`) 수정
+                    a.delete(href=`/users/delete/${user.id}` onclick="return confirm('정말 삭제하시겠습니까?')") 삭제
+        else
+          .empty-state
+            h3 사용자가 없습니다
+            p 첫 번째 사용자를 등록해보세요!
+            a.btn(href='/users/reg') 사용자 등록하기
+      
+      .back-home
+        a(href='/') ← 홈으로 돌아가기 

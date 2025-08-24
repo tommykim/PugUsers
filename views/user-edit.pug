@@ -1,23 +1,169 @@
 doctype html
-html
+html(lang='ko')
   head
-    title Edit User
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title 사용자 수정
     style.
-      .btn-group { display: flex; gap: 10px; margin-top: 10px; }
-      button { padding: 5px 10px; cursor: pointer; }
-      .cancel { background: #f44336; color: white; border: none; }
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .container {
+        background: white;
+        padding: 3rem;
+        border-radius: 15px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        max-width: 500px;
+        width: 90%;
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      h1 {
+        color: #333;
+        margin-bottom: 0.5rem;
+        font-size: 2.5rem;
+      }
+      .subtitle {
+        color: #666;
+        font-size: 1.1rem;
+      }
+      .user-info {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 10px;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        border-left: 4px solid #667eea;
+      }
+      .user-id {
+        color: #667eea;
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #333;
+        font-weight: 600;
+        font-size: 1rem;
+      }
+      input[type="text"],
+      input[type="number"] {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        box-sizing: border-box;
+      }
+      input[type="text"]:focus,
+      input[type="number"]:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+      .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        accent-color: #667eea;
+        cursor: pointer;
+      }
+      .checkbox-group label {
+        margin-bottom: 0;
+        cursor: pointer;
+      }
+      .btn-group {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+        justify-content: center;
+      }
+      .btn {
+        padding: 12px 30px;
+        border: none;
+        border-radius: 25px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      }
+      .btn-primary {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+      }
+      .btn-secondary {
+        background: linear-gradient(45deg, #6c757d, #495057);
+        color: white;
+      }
+      .btn-danger {
+        background: linear-gradient(45deg, #dc3545, #c82333);
+        color: white;
+      }
+      .back-link {
+        text-align: center;
+        margin-top: 2rem;
+      }
+      .back-link a {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 500;
+        transition: opacity 0.3s ease;
+      }
+      .back-link a:hover {
+        opacity: 0.8;
+      }
+
   body
-    h1 Edit User
-    form(action=`/users/edit/${user.id}` method='POST')
-      div
-        label(for='name') Name: 
-        input#name(name='name' value=user.name required)
-      div
-        label(for='age') Age: 
-        input#age(type='number' name='age' value=user.age required)
-      div
-        label(for='married') Married: 
-        input#married(type='checkbox' name='married' checked=user.married)
-      div.btn-group
-        button(type='submit') Save
-        button.cancel(type='button' onclick="location.href='/users'") Cancel 
+    .container
+      .header
+        h1 사용자 수정
+        .subtitle 사용자 정보를 수정해주세요
+      
+      .user-info
+        .user-id 사용자 ID: #{user.id}
+      
+      form(action=`/users/edit/${user.id}` method='POST')
+        .form-group
+          label(for='name') 이름
+          input#name(type='text' name='name' value=user.name required placeholder='사용자 이름을 입력하세요')
+        
+        .form-group
+          label(for='age') 나이
+          input#age(type='number' name='age' value=user.age required placeholder='나이를 입력하세요' min='1' max='120')
+        
+        .form-group
+          .checkbox-group
+            input#married(type='checkbox' name='married' checked=user.married)
+            label(for='married') 기혼 여부
+        
+        .btn-group
+          button.btn.btn-primary(type='submit') 수정 완료
+          a.btn.btn-danger(href='/users') 취소
+      
+      .back-link
+        a(href='/users') ← 사용자 목록으로 돌아가기 
